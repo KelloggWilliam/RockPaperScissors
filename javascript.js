@@ -1,15 +1,35 @@
-console.log("Hello World");
+let playerChoiceGlobal = "";
+let compChoiceGlobal = "";
+
+var buttonR = document.getElementById('rock').addEventListener('click', buttonClick);
+var buttonP = document.getElementById('paper').addEventListener('click', buttonClick);
+var buttonS = document.getElementById('scissors').addEventListener('click', buttonClick);
+
 
 function getComputerChoice(){
     let CompArray = ["rock", "paper", "scissors"];
     CompChoice = Math.floor(Math.random() * 3);
     console.log("CompChoice: " + CompArray[CompChoice])
-    
-    return CompArray[CompChoice];
+    compChoiceGlobal = CompArray[CompChoice];
+    //return CompArray[CompChoice];
 }
 
 /*console.log(getComputerChoice())*/
 
+function buttonClick(e){
+    playerChoiceGlobal = e.target.id;
+    //console.log('Button Clicked')
+    console.log("in function " + e.target.id + " "+ playerChoiceGlobal);
+    //var output = document.getElementById('button');
+    //output.innerHTML = '<h3>'+e.target.id+'</h3>';
+    getComputerChoice();
+    console.log("in function " + e.target.id + " "+ playerChoiceGlobal + "CC: " + compChoiceGlobal);
+    playGame(1, compChoiceGlobal, playerChoiceGlobal);
+
+
+   
+}
+/*
 function getPlayerChoice() {
     check = 0;
     let PlayerChoice = prompt("Rock, Paper, or Scissors?");
@@ -30,6 +50,19 @@ function getPlayerChoice() {
     return PlayerChoice;
 }
 
+function getPlayerChoice(){
+    var buttonR = document.getElementById('buttonR')
+    var buttonP = document.getElementById('buttonP').addEventListener('click', buttonClick);
+    var buttonS = document.getElementById('buttonS').addEventListener('click', buttonClick);
+
+    let result = buttonR.addEventListener('click', buttonClick);
+
+    console.log("R" + result);
+
+    return result;
+}
+*/
+
 function printWin(winner, loser){
     console.log("You Win! " + winner + " beats " + loser);
 }
@@ -42,26 +75,30 @@ function printTie(){
     console.log("There was a tie, you chose the same options");
 }
 
-function playRound(CompSelecton, PlayerSelection){
+
+
+function playRound(compSelection, playerSelection){
     let result = 0;
     let check = 0;
 
     while (check < 1){
-        if (CompSelecton != PlayerSelection){
+        if (compSelection != playerSelection){
             check = 1;
         }
         else {
-            CompSelecton = getComputerChoice();
+            printTie();
+            getComputerChoice();
+            compSelection = compChoiceGlobal;
         }
     }
 
-    if ((PlayerSelection === "rock" && CompSelecton === "scissors") || (PlayerSelection === "scissors" && CompSelecton === "paper") ||(PlayerSelection === "paper" && CompSelecton === "rock")){
-        printWin(PlayerSelection, CompSelecton);
+    if ((playerSelection === "rock" && compSelection === "scissors") || (playerSelection === "scissors" && compSelection === "paper") ||(playerSelection === "paper" && compSelection === "rock")){
+        printWin(playerSelection, compSelection);
         result = 1;
     }
     
-    else if ((PlayerSelection === "scissors" && CompSelecton === "rock") || (PlayerSelection === "paper" && CompSelecton === "scissors") ||(PlayerSelection === "rock" && CompSelecton === "paper")){
-        printLose(PlayerSelection, CompSelecton);
+    else if ((playerSelection === "scissors" && compSelection === "rock") || (playerSelection === "paper" && compSelection === "scissors") ||(playerSelection === "rock" && compSelection === "paper")){
+        printLose(playerSelection, compSelection);
         result = 0;
     }
     
@@ -72,18 +109,16 @@ function playRound(CompSelecton, PlayerSelection){
 }
 
 
-function playGame(number){
+function playGame(number, compSelection, playerSelection){
     counter = 0;
     score = 0;
 
-    while (counter < number){
-        PlayerSelection = getPlayerChoice();
-        CompSelecton = getComputerChoice();
-        score = score + playRound(CompSelecton, PlayerSelection);
-        counter = counter + 1;
-    }
+        //playerSelection = getPlayerChoice();
+        //compSelection = getComputerChoice();
+    score = score + playRound(compSelection, playerSelection);
+    counter = counter + 1;
 
     console.log("You won " + score + " out of " + number + " games");
 }
 
-playGame(5);
+//playGame(1);
